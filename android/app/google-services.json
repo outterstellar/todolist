@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236609263502",
+    "project_id": "habittracker-68e77",
+    "storage_bucket": "habittracker-68e77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236609263502:android:3cee47426770d76595b6df",
+        "android_client_info": {
+          "package_name": "com.dogacevcin.habittracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4auZ8gBQLn29262jefaHN3SlLLB5lqQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
