@@ -6,40 +6,42 @@ import 'package:habittracker/screens/loadingscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
+
 SharedPreferences? pref;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   pref = await SharedPreferences.getInstance();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return  ScreenUtilInit(
-      designSize: Size(412,915),
-      builder: (child,a){
+    return ScreenUtilInit(
+      designSize:const Size(412, 915),
+      builder: (child, a) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          darkTheme: ThemeData.dark(),
-          themeMode: ThemeMode.dark,
-          home: selectDestination()
-        );
+            debugShowCheckedModeBanner: false,
+            darkTheme: ThemeData.dark(),
+            themeMode: ThemeMode.dark,
+            home: selectDestination());
       },
     );
   }
 }
+
 String savedID = "";
-Widget selectDestination(){
-  if(pref!.getBool("guest") != true && pref!.getString("id") == null){
+Widget selectDestination() {
+  if (pref!.getString("id") == null || pref!.getString("id") == "") {
     return LoginScreen();
-  }else{
+  } else {
     savedID = pref!.getString("id")!;
     return LoadingScreen();
   }
-} 
+}

@@ -3,22 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:habittracker/data/model.dart';
-import 'package:habittracker/main.dart';
-import 'package:habittracker/screens/loadingscreen.dart';
 import 'package:habittracker/screens/loginscreen.dart';
 import 'package:habittracker/screens/mainscreen.dart';
 
-class NewToDo extends StatefulWidget {
-  const NewToDo({super.key});
+import '../main.dart';
+import 'loadingscreen.dart';
+
+class EditToDo extends StatefulWidget {
+  String title;
+  Color color;
+  String description;
+  int index;
+  EditToDo({required this.title,required this.color,required this.description,required this.index,super.key});
 
   @override
-  State<NewToDo> createState() => _NewToDoState();
+  State<EditToDo> createState() => _EditToDoState(title,description,color,index);
 }
 
-class _NewToDoState extends State<NewToDo> {
-  Color color = Colors.white;
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+class _EditToDoState extends State<EditToDo> {
+  _EditToDoState(String title,String description,Color color,int index);
+  TextEditingController? titleController;
+  TextEditingController? descriptionController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    titleController = TextEditingController(text: widget.title);
+    descriptionController = TextEditingController(text: widget.description);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,21 +38,22 @@ class _NewToDoState extends State<NewToDo> {
         resizeToAvoidBottomInset: false,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (titleController.text == "") {
+            if (widget.title == "") {
               showInformationDialog(
                   context: context, description: "Please Write A Title");
             } else {
+              modelList.removeAt(widget.index);
               modelList.add(ToDoModel(
-                  name: titleController.text,
-                  description: descriptionController.text,
-                  color: color));
+                  name: titleController!.text,
+                  description: descriptionController!.text,
+                  color: widget.color));
               firestore
                   .collection("users")
                   .doc(savedID)
                   .update({"todo": modelsToList()});
               Navigator.of(context).pushAndRemoveUntil(
                   CupertinoPageRoute(builder: (context) => MainScreen()),
-                  (context) => false);
+                      (context) => false);
             }
           },
           child: Icon(Icons.arrow_forward_ios),
@@ -55,7 +68,7 @@ class _NewToDoState extends State<NewToDo> {
             Padding(
               padding: const EdgeInsets.all(16.0).w,
               child: Text(
-                "New To Do",
+                "Edit To Do",
                 style: TextStyle(fontSize: 35.sp),
               ),
             ),
@@ -93,7 +106,7 @@ class _NewToDoState extends State<NewToDo> {
                     labelText: "Description"),
               ),
             ),
-             Divider(
+            Divider(
               color: Colors.transparent,
               height: 70.h,
             ),
@@ -105,25 +118,25 @@ class _NewToDoState extends State<NewToDo> {
                       showCupertinoDialog(
                           context: context,
                           builder: (context) => CupertinoAlertDialog(
-                                content: BlockPicker(
-                                    pickerColor: color,
-                                    onColorChanged: (changedColor) {
-                                      color = changedColor;
-                                      //print(color.toHexString());
-                                      setState(() {});
-                                    }),
-                                actions: [
-                                  CupertinoButton(
-                                      child: Text("Okay"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      })
-                                ],
-                                title: Text("Select A Color"),
-                              ));
+                            content: BlockPicker(
+                                pickerColor: widget.color,
+                                onColorChanged: (changedColor) {
+                                  widget.color = changedColor;
+                                  //print(color.toHexString());
+                                  setState(() {});
+                                }),
+                            actions: [
+                              CupertinoButton(
+                                  child: Text("Okay"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  })
+                            ],
+                            title: Text("Select A Color"),
+                          ));
                     },
                     child: Text("Select A Color")),
-                CircleAvatar(backgroundColor: color)
+                CircleAvatar(backgroundColor: widget.color)
               ],
             ),
             Divider(
@@ -137,7 +150,7 @@ class _NewToDoState extends State<NewToDo> {
                     borderRadius: BorderRadius.circular(12).w),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0).w,
-                  child: Text("You must add a title to create a new to do"),
+                  child: Text("A To Do must have a title."),
                 ),
               ),
             ),
