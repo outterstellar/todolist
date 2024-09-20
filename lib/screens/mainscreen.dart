@@ -64,32 +64,33 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget selectBody(int navBarIndex) {
+
     return navBarIndex == 0
-        ? ListView.builder(
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(12.0).w,
-                child: Dismissible(
-                  key: UniqueKey(),
-                  onDismissed: (direction) {
-                    showDeletedSnackBar(todo: modelList[index]);
-                    modelList.removeAt(index);
-                    firestore
-                        .collection("users")
-                        .doc(savedID)
-                        .update({"todo": modelsToList()});
-                    setState(() {});
-                  },
+        ? ReorderableListView.builder(
+            itemBuilder: (context,index){
+              return Dismissible(
+                key: ValueKey(modelList[index]),
+  onDismissed: (direction){
+    showDeletedSnackBar(todo: modelList[index]);
+    modelList.removeAt(index);
+    firestore
+        .collection("users")
+        .doc(savedID)
+        .update({"todo": modelsToList()});
+    setState(() {});
+  },
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0).w,
                   child: Card(
                     child: ListTile(
                       onTap: () {
                         Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => EditToDo(
-                                  title: modelList[index].name,
-                                  description: modelList[index].description,
-                                  color: modelList[index].color,
+                              title: modelList[index].name,
+                              description: modelList[index].description,
+                              color: modelList[index].color,
                               index: index,
-                                )));
+                            )));
                       },
                       title: Center(child: Text(modelList[index].name)),
                       subtitle: modelList[index].description != ""
@@ -107,7 +108,19 @@ class _MainScreenState extends State<MainScreen> {
               );
             },
             itemCount: modelList.length,
-          )
+            onReorder: (oldIndex,newIndex)async{
+              ToDoModel movingModel = modelList[oldIndex];
+              if(newIndex > oldIndex){
+                newIndex--;
+              }
+              modelList.removeAt(oldIndex);
+              modelList.insert(newIndex, movingModel);
+              await firestore
+                  .collection("users")
+                  .doc(savedID)
+                  .update({"todo": modelsToList()});
+
+            })
         : Column(
             children: [
               Divider(

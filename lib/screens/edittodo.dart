@@ -14,23 +14,29 @@ class EditToDo extends StatefulWidget {
   Color color;
   String description;
   int index;
-  EditToDo({required this.title,required this.color,required this.description,required this.index,super.key});
+  EditToDo(
+      {required this.title,
+      required this.color,
+      required this.description,
+      required this.index,
+      super.key});
 
   @override
-  State<EditToDo> createState() => _EditToDoState(title,description,color,index);
+  State<EditToDo> createState() =>
+      _EditToDoState(title, description, color, index);
 }
 
 class _EditToDoState extends State<EditToDo> {
-  _EditToDoState(String title,String description,Color color,int index);
+  _EditToDoState(String title, String description, Color color, int index);
   TextEditingController? titleController;
-  TextEditingController? descriptionController ;
+  TextEditingController? descriptionController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     titleController = TextEditingController(text: widget.title);
     descriptionController = TextEditingController(text: widget.description);
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +59,7 @@ class _EditToDoState extends State<EditToDo> {
                   .update({"todo": modelsToList()});
               Navigator.of(context).pushAndRemoveUntil(
                   CupertinoPageRoute(builder: (context) => MainScreen()),
-                      (context) => false);
+                  (context) => false);
             }
           },
           child: Icon(Icons.arrow_forward_ios),
@@ -79,6 +85,7 @@ class _EditToDoState extends State<EditToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
+                keyboardType: TextInputType.text,
                 autofocus: false,
                 controller: titleController,
                 decoration: InputDecoration(
@@ -118,22 +125,22 @@ class _EditToDoState extends State<EditToDo> {
                       showCupertinoDialog(
                           context: context,
                           builder: (context) => CupertinoAlertDialog(
-                            content: BlockPicker(
-                                pickerColor: widget.color,
-                                onColorChanged: (changedColor) {
-                                  widget.color = changedColor;
-                                  //print(color.toHexString());
-                                  setState(() {});
-                                }),
-                            actions: [
-                              CupertinoButton(
-                                  child: Text("Okay"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  })
-                            ],
-                            title: Text("Select A Color"),
-                          ));
+                                content: BlockPicker(
+                                    pickerColor: widget.color,
+                                    onColorChanged: (changedColor) {
+                                      widget.color = changedColor;
+                                      //print(color.toHexString());
+                                      setState(() {});
+                                    }),
+                                actions: [
+                                  CupertinoButton(
+                                      child: Text("Okay"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      })
+                                ],
+                                title: Text("Select A Color"),
+                              ));
                     },
                     child: Text("Select A Color")),
                 CircleAvatar(backgroundColor: widget.color)

@@ -66,6 +66,7 @@ class _NewToDoState extends State<NewToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
+                keyboardType: TextInputType.text,
                 autofocus: false,
                 controller: titleController,
                 decoration: InputDecoration(
