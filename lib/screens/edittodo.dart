@@ -49,7 +49,7 @@ class _EditToDoState extends State<EditToDo> {
                   context: context, description: "Please Write A Title");
             } else {
               modelList.removeAt(widget.index);
-              modelList.add(ToDoModel(
+              modelList.insert(widget.index,ToDoModel(
                   name: titleController!.text,
                   description: descriptionController!.text,
                   color: widget.color));
@@ -85,7 +85,7 @@ class _EditToDoState extends State<EditToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
-                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
                 autofocus: false,
                 controller: titleController,
                 decoration: InputDecoration(
@@ -102,7 +102,7 @@ class _EditToDoState extends State<EditToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
-                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
                 autofocus: false,
                 controller: descriptionController,
                 maxLines: 7,

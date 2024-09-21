@@ -66,7 +66,7 @@ class _NewToDoState extends State<NewToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
-                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
                 autofocus: false,
                 controller: titleController,
                 decoration: InputDecoration(
@@ -83,7 +83,7 @@ class _NewToDoState extends State<NewToDo> {
             Padding(
               padding: const EdgeInsets.all(8.0).w,
               child: TextField(
-                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
                 autofocus: false,
                 controller: descriptionController,
                 maxLines: 7,

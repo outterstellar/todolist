@@ -66,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Padding(
                       padding: EdgeInsets.fromLTRB(8.r, 8.r, 0, 8.r),
                       child: TextField(
-                        keyboardType: TextInputType.text,
                         controller: idController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(

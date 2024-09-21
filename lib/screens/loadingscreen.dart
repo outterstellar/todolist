@@ -29,9 +29,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
       if (modelList != []) {
         print("Mr. Frodo, we found the list\n ${modelList.toString()}");
         Navigator.of(context).pushAndRemoveUntil(
-            CupertinoPageRoute(
-                builder: (context) => MainScreen()),
-                (context) => false);
+            CupertinoPageRoute(builder: (context) => MainScreen()),
+            (context) => false);
       }
     });
   }
@@ -56,12 +55,11 @@ List<ToDoModel> mapToModel({required Map map}) {
   List<ToDoModel> list = [];
   print(map.toString());
   for (int i = 0; i < map["todo"].length; i++) {
-    list.add(
-      ToDoModel(
-          name: map["todo"][i.toString()][0],
-          description: map["todo"][i.toString()][1],
-          color: stringToColor(map["todo"][i.toString()][2]),)
-    );
+    list.add(ToDoModel(
+      name: map["todo"][i.toString()][0],
+      description: map["todo"][i.toString()][1],
+      color: stringToColor(map["todo"][i.toString()][2]),
+    ));
   }
   return list;
 }
